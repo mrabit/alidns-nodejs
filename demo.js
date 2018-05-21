@@ -8,10 +8,11 @@ var DNS = ALIDNS({
 });
 
 // API概览 :
-// https://help.aliyun.com/document_detail/29740.html?spm=a2c4g.11186623.6.585.yINpwr
+// https://help.aliyun.com/document_detail/29740.html
 DNS.queryData({
+  Action: "DescribeDomainRecords",
   DomainName: 'mrabit.com',
-  pageSize: 2
+  PageSize: 2
 }, function(err, res) {
   if (err) return console.log(err);
   console.log('success', JSON.stringify(res));

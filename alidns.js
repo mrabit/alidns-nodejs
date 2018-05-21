@@ -2,16 +2,15 @@ var request = require('request');
 var copy = require('copy-to');
 var crypto = require('crypto');
 
-// 公共请求参数: https://help.aliyun.com/document_detail/29745.html?spm=a2c4g.11186623.6.590.VUsYAl
 var defaultOptions = {
-  // API版本: https://help.aliyun.com/document_detail/29741.html?spm=a2c4g.11186623.6.586.C8x9Xu
+  // API版本: https://help.aliyun.com/document_detail/29741.html
   apiVerison: '2015-01-09',
   region: 'cn-hangzhou',
   timeout: 120000
 }
 
 var config = {
-  // DNS API的服务接入地址为：https://help.aliyun.com/document_detail/29744.html?spm=a2c4g.11186623.2.3.LL4vkF
+  // DNS API的服务接入地址为：https://help.aliyun.com/document_detail/29744.html
   endpoint: 'http://alidns.aliyuncs.com/'
 }
 
@@ -23,7 +22,7 @@ var ALIDNS = function(options) {
   options && copy(options)
     .toCover(this.options);
   // 创建AccessKey
-  // https://help.aliyun.com/document_detail/53045.html?spm=a2c4g.11174283.6.702.uVVPym&parentId=29697
+  // https://help.aliyun.com/document_detail/53045.html
   if (!this.options.accesskeyId ||
     !this.options.accesskeySecret) {
     throw new Error('accesskeyId, accesskeySecret is required');
@@ -36,11 +35,8 @@ var proto = ALIDNS.prototype;
 
 proto.queryData = function(conditions = {}, fn) {
   // API概览 :
-  // https://help.aliyun.com/document_detail/29740.html?spm=a2c4g.11186623.6.585.yINpwr
-  var params = {}
-  conditions && copy(conditions)
-    .toCover(params);
-  this._request('GET', params, fn);
+  // https://help.aliyun.com/document_detail/29740.html
+  this._request('GET', conditions, fn);
 }
 
 // GET参数生成
@@ -82,7 +78,7 @@ proto._generateBody = function(customParams) {
   return fields_string;
 }
 
-// 签名机制: https://help.aliyun.com/document_detail/29747.html?spm=a2c4g.11186623.2.3.Jo6B7u
+// 签名机制: https://help.aliyun.com/document_detail/29747.html
 proto._computeSignature = function(params, method) {
   var keys = Object.keys(params);
   keys = keys.sort();
@@ -102,7 +98,7 @@ proto._computeSignature = function(params, method) {
 }
 
 // 生成公共请求参数
-// 公共请求参数说明: https://help.aliyun.com/document_detail/29745.html?spm=a2c4g.11186623.6.590.XDFUnD
+// 公共请求参数说明: https://help.aliyun.com/document_detail/29745.html
 proto._getBasicParams = function() {
   var now = new Date();
   var nonce = now.getTime() + '' + parseInt((Math.random() * 1000000000));
@@ -118,7 +114,7 @@ proto._getBasicParams = function() {
   }
 }
 
-// 规范化字符串
+// 规范化字符串,URL编码
 proto._percentEncode = function(str) {
   var str = encodeURIComponent(str);
   str = str.replace(/\*/g, '%20');
