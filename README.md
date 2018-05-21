@@ -11,12 +11,12 @@ npm i alidns-nodejs --save
 
 请查看 `demo.js`
 ``` javascript
-import alidns from "alidns-nodejs";
-var DNS = ALIDNS({
+import ALIDNS from "alidns-nodejs";
+var client = ALIDNS({
   accesskeyId: 'your accesskeyId',
   accesskeySecret: 'your accesskeySecret'
 });
-DNS.queryData(params,callback);
+client.queryData(params,callback);
 ```
 params 可参考: [阿里云DNS解析 - API概况](https://help.aliyun.com/document_detail/29740.html?spm=a2c4g.11186623.6.585.QkQjtG)
 

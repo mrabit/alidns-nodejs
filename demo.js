@@ -2,14 +2,14 @@ var ALIDNS = require('./alidns');
 var config = require('./config');
 
 
-var DNS = ALIDNS({
+var client = ALIDNS({
   accesskeyId: config.accesskeyId,
   accesskeySecret: config.accesskeySecret
 });
 
 // API概览 :
 // https://help.aliyun.com/document_detail/29740.html
-DNS.queryData({
+client.queryData({
   Action: "DescribeDomainRecords",
   DomainName: 'mrabit.com',
   PageSize: 2
