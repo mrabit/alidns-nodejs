@@ -22,6 +22,8 @@ var ALIDNS = function(options) {
   this.options = defaultOptions;
   options && copy(options)
     .toCover(this.options);
+  // 创建AccessKey
+  // https://help.aliyun.com/document_detail/53045.html?spm=a2c4g.11174283.6.702.uVVPym&parentId=29697
   if (!this.options.accesskeyId ||
     !this.options.accesskeySecret) {
     throw new Error('accesskeyId, accesskeySecret is required');
@@ -35,15 +37,13 @@ var proto = ALIDNS.prototype;
 proto.queryData = function(conditions = {}, fn) {
   // API概览 :
   // https://help.aliyun.com/document_detail/29740.html?spm=a2c4g.11186623.6.585.yINpwr
-  var params = {
-    Action: "DescribeDomainRecords"
-  }
+  var params = {}
   conditions && copy(conditions)
     .toCover(params);
   this._request('GET', params, fn);
 }
 
-// GET公共请求参数
+// GET参数生成
 proto._generateUrl = function(customParams) {
   var params = this._getBasicParams();
   for (var i in customParams) {
@@ -63,7 +63,7 @@ proto._generateUrl = function(customParams) {
   return config.endpoint + '?' + url;
 }
 
-// POST公共请求参数
+// POST参数生成
 proto._generateBody = function(customParams) {
   var params = this._getBasicParams();
   for (var i in customParams) {
@@ -101,10 +101,11 @@ proto._computeSignature = function(params, method) {
   return signature;
 }
 
+// 生成公共请求参数
+// 公共请求参数说明: https://help.aliyun.com/document_detail/29745.html?spm=a2c4g.11186623.6.590.XDFUnD
 proto._getBasicParams = function() {
   var now = new Date();
   var nonce = now.getTime() + '' + parseInt((Math.random() * 1000000000));
-  // 参数说明: https://help.aliyun.com/document_detail/29745.html?spm=a2c4g.11186623.6.590.XDFUnD
   return {
     RegionId: this.options.region,
     AccessKeyId: this.options.accesskeyId,
